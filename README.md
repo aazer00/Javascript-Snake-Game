@@ -8,7 +8,7 @@ Technologies: HTML, CSS, JavaScript
 ### Colorless 1
 ![](images/Capture1.PNG)
 ### Colorless 2
-![](images/Capture2.PNG)
-### Random Color 1
 ![](images/Capture3.PNG)
+### Random Color 1
+![](images/Capture4.PNG)
 
