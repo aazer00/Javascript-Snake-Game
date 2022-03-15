@@ -3,10 +3,12 @@
 # Overview
 Scane Game with several modes <br/>
 Technologies: HTML, CSS, JavaScript
+### Game Mode
+![](images/Capture0.PNG)
 ### Colorless 1
-![](images/Capture.PNG)
-### Colorless 2
 ![](images/Capture1.PNG)
-### Random Color 1
+### Colorless 2
 ![](images/Capture2.PNG)
+### Random Color 1
+![](images/Capture3.PNG)
 
