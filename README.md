@@ -4,7 +4,7 @@
 Scane Game with several modes <br/>
 Technologies: HTML, CSS, JavaScript
 ### Game Mode
-![](images/Capture0.PNG)
+![](images/Capture.PNG)
 ### Colorless 1
 ![](images/Capture1.PNG)
 ### Colorless 2
