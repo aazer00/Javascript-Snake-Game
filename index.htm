@@ -1,0 +1,573 @@
+<html>
+	<head>
+		<title>Snake</title>
+	</head>
+	<style>
+		div{
+		box-sizing:border-box;
+		}
+		body{
+			background-color:silver;
+		}
+		#game{
+			width:1200px;
+			height:900px;
+			background-color:white;
+			margin:auto;
+			position:relative;
+		}
+		#snake{
+			width:50px;
+			height:50px;
+			background-color:green;
+			position:absolute;
+			top:0px;
+			left:0px;
+			text-align:right;
+			visibility:hidden;
+			border-radius: 20px 20px 20px 20px;
+			overflow:auto;
+
+		}
+		#food{
+			width:50px;
+			height:50px;
+			background-color:red;
+			position:absolute;
+			top:0px;
+			left:0px;
+			text-align:right;
+			visibility:hidden;
+			border:1px solid black;
+		}
+		
+		#start{
+			background:yellow;
+			width:400px;
+			height:120px;
+			position:absolute;
+			text-align:center;
+			padding:10;
+			box-sizing:border-box;
+			left:400px;
+			top:350px;
+			border: 2px solid black;
+			border-radius:20px;
+			font-size:5em;
+			cursor:default;
+			visibility:visible;
+		}
+		#border{
+			background:yellow;
+			width:400px;
+			height:120px;
+			position:absolute;
+			text-align:center;
+			padding:10;
+			box-sizing:border-box;
+			left:400px;
+			top:270px;
+			border: 2px solid black;
+			border-radius:20px;
+			font-size:5em;
+			cursor:default;
+			visibility:hidden;
+			
+		}
+		#no{
+			background:yellow;
+			width:180px;
+			height:100px;
+			position:absolute;
+			text-align:center;
+			padding:10;
+			box-sizing:border-box;
+			left:620px;
+			top:400px;
+			border: 2px solid black;
+			border-radius:20px;
+			font-size:4em;
+			cursor:default;
+			visibility:hidden;
+		}
+		#yes{
+			background:yellow;
+			width:180px;
+			height:100px;
+			position:absolute;
+			text-align:center;
+			padding:10;
+			box-sizing:border-box;
+			left:400px;
+			top:400px;
+			border: 2px solid black;
+			border-radius:20px;
+			font-size:4em;
+			cursor:default;
+			visibility:hidden;
+			
+		}
+		.point{
+			background:white;
+			width:20px;
+			height:15px;
+			position:absolute;
+			left:15px;
+			top:17.5px;
+			border: 3px solid red;
+			border-radius:7px;
+		}
+		#eye
+		{
+			width:10px;
+			height:10px;
+			position:absolute;
+			background:white;
+			border-radius:5px;
+			left:38px;
+			top:8px;
+		}
+		#eyef
+		{
+			width:10px;
+			height:10px;
+			position:absolute;
+			background:white;
+			border-radius:5px;
+			left:38px;
+			bottom:8px;
+		}
+		.eyeball
+		{
+			width:4px;
+			height:4px;
+			position:absolute;
+			background:black;
+			border-radius:2px;
+			left:3px;
+			bottom:3px;
+		}
+		#again
+		{
+			background:yellow;
+			width:400px;
+			height:240px;
+			position:absolute;
+			text-align:center;
+			padding:10;
+			box-sizing:border-box;
+			left:400px;
+			top:350px;
+			border: 2px solid black;
+			border-radius:20px;
+			font-size:5em;
+			cursor:default;
+			visibility:hidden;
+		}
+		#color{
+			background:yellow;
+			width:400px;
+			height:240px;
+			position:absolute;
+			text-align:center;
+			padding:10;
+			box-sizing:border-box;
+			left:400px;
+			top:270px;
+			border: 2px solid black;
+			border-radius:20px;
+			font-size:5em;
+			cursor:default;
+			visibility:hidden;
+			
+		}
+		#no_c{
+			background:yellow;
+			width:180px;
+			height:100px;
+			position:absolute;
+			text-align:center;
+			padding:10;
+			box-sizing:border-box;
+			left:620px;
+			top:520px;
+			border: 2px solid black;
+			border-radius:20px;
+			font-size:4em;
+			cursor:default;
+			visibility:hidden;
+		}
+		#yes_c{
+			background:yellow;
+			width:180px;
+			height:100px;
+			position:absolute;
+			text-align:center;
+			padding:10;
+			box-sizing:border-box;
+			left:400px;
+			top:520px;
+			border: 2px solid black;
+			border-radius:20px;
+			font-size:4em;
+			cursor:default;
+			visibility:hidden;
+			
+		}
+		#counter{
+			text-align:center;
+			margin-top:10px;
+			font-size:3em;
+		}
+	</style>
+	<body>
+		<div id="game">
+			<div id="start" onclick=start()>START</div>
+			<div id="border">BORDER</div>
+			<div id="no" onclick=border(1)>NO</div>
+			<div id="yes" onclick=border(0)>YES</div>
+			<div id="color">COLOR CHANGE</div>
+			<div id="no_c" onclick=color(0)>NO</div>
+			<div id="yes_c" onclick=color(1)>YES</div>
+			<div id="cont">
+				<div id="snake">
+					<div class="point"></div>
+					<div id="eye">
+						<div class="eyeball"></div>
+					</div>
+					<div id="eyef">
+						<div class="eyeball"></div>
+					</div>
+				</div>
+				<div id="food"></div>
+			</div>
+			
+			<div id="again" onclick=again()>PLAY AGAIN</div>
+		</div>
+		<div id="counter">Score : 0</div>
+		<script>
+			/*var colors= ['aqua',  'blue', 'fuchsia', 'green', 
+			'lime', 	'maroon', 'navy', 'olive', 'orange', 'purple', 'red', 
+			'silver', 	'teal', 'yellow','blue'];*/
+			var borderless = false;
+			var gameStarted = false;
+			var color_change = false;
+			var a = 0;
+			var b = 0;
+			var tails = [];
+			var tails_x = [];
+			var tails_y = [];
+			var rotations = [];
+			var deg = 0;
+			var tail_index = 0;
+			var x = 0;
+			var y = 0;
+			var dx = 50;
+			var dy = 50;
+			var snake_up = false;
+			var snake_left = false;
+			var snake_down = false;
+			var snake_right = true;
+			var change_state = true;
+			var t_color = "green";
+			var food_x = 0;
+			var food_y = 0;
+			var snake = document.getElementById("snake").style;
+			var food = document.getElementById("food").style;
+			food.backgroundColor="red";
+			var con=-10;
+			//var tail = document.getElementById("tail").style;
+			var game_time = setInterval(move, 100);
+			setInterval(check, 40);
+			generate_food();
+			//tails_position.push()
+			document.onkeydown = checkKey;
+			function checkKey(e) {
+				e = e || window.event;
+				if(gameStarted){
+				if(e.keyCode == '37'&& snake_right == false && change_state ==true ){
+					snake_left = true;
+					snake_up = false;
+					snake_down = false;
+					snake_right = false;
+					change_state = false;
+				}
+				else if(e.keyCode == '40'&& snake_up == false && change_state ==true ) {
+					snake_down = true;
+					snake_left = false;
+					snake_up = false;
+					snake_right = false;
+					change_state = false;
+				}
+				else if(e.keyCode == '39'&& snake_left == false && change_state ==true ) {
+					snake_right = true;
+					snake_left = false;
+					snake_up = false;
+					snake_down = false;
+					change_state = false;
+				}
+				else if(e.keyCode == '38'&& snake_down == false && change_state ==true ) {
+					snake_up = true;
+					snake_left = false;
+					snake_down = false;
+					snake_right = false;
+					change_state = false;
+				}
+				}
+			}
+			
+			function move ()
+			{
+				if(gameStarted)
+				{
+				
+				if(snake_left)
+				{
+					x = x - dx;
+					if(x<0 && borderless == true) x=1150;
+					if(x>=0)
+					{
+						snake.left = x+"px";
+						change_state = true;
+						deg = 180;
+						snake.transform = "rotate("+deg+"deg)";
+					}
+					
+				}
+				if(snake_down)
+				{
+					y = y + dy;
+					if(y>850 && borderless == true) y=0;
+					if(y<=850)
+					{
+						snake.top = y+"px";
+						change_state = true;
+						deg = 90;
+						snake.transform = "rotate("+deg+"deg)";
+					}
+					
+				}
+				if(snake_right)
+				{
+					x = x + dx;
+					if(x>1150 && borderless == true) x=0;
+					if(x<=1150)
+					{
+						snake.left = x+"px";
+						change_state = true;
+						deg = 0;
+						snake.transform = "rotate("+deg+"deg)";
+					}
+					
+				}
+				if(snake_up)
+				{
+					y = y - dy;
+					if(y<0 && borderless == true) y=850;
+					if(y>=0)
+					{
+						snake.top = y+"px";
+						change_state = true;
+						deg = -90;
+						snake.transform = "rotate("+deg+"deg)";
+					}
+					
+				}
+				for( var i = 0; i < tails.length; i++)
+				{
+					//tails[i].style.transform = rotations[i];
+					if(y<=850&&y>=0&&x<=1150&&x>=0)
+					tails[i].style.left = tails_x[i];
+					if(y<=850&&y>=0&&x<=1150&&x>=0)
+					tails[i].style.top = tails_y[i];
+					
+				}
+				tails_x = [];
+				tails_y = [];
+				rotations = [];
+				tails_x.push(x+"px");
+				tails_y.push(y+"px");
+				rotations.push(snake.transform);
+				for( var i = 0; i < tails.length; i++)
+				{
+					rotations.push(tails[i].style.transform);
+					tails_x.push(tails[i].style.left);
+					tails_y.push(tails[i].style.top);
+				}
+				for( var i = 0; i < tails.length; i++)
+				{	if(y<=850&&y>=0&&x<=1150&&x>=0)
+					tails[i].style.transform = rotations[i];
+					
+					
+				}
+				if(tail_check() == true ) {over(); }
+				if((x<0||y<0||x>1150||y>850)&& borderless == false ){over(); }
+				
+				}
+			
+			}
+			
+			function generate_food()
+			{
+				con+=10;
+				var fx= false;
+				
+				do
+				{
+					fx= true;
+					
+					food_x = (Math.floor((Math.random() * 23) + 1))*50;
+					food_y = (Math.floor((Math.random() * 17) + 1))*50;
+					
+					for(var o=0;o<tails_x.length;o++)
+						{
+							
+							if(food_x+"px" == tails_x[o]&&food_y+"px" == tails_y[o]) {fx=false; }
+						}
+	
+				}
+				while(fx==false);
+				
+				
+				food.top = food_y+"px";
+				food.left = food_x+"px";
+				if(color_change)
+				{
+					var letters = "0123456789ABCDEF"; 
+					var color = '#'; 
+					var colorbg = '#'; 
+					for (var i = 0; i < 6; i++) 
+					   {	
+							var rd =(Math.floor(Math.random() * 16));
+							color += letters[rd];
+							colorbg += letters[16-rd];
+					   }
+					   
+					food.backgroundColor = color;
+					//document.getElementById("game").style.backgroundColor=colorbg;
+					
+				}
+				document.getElementById("counter").innerHTML = "Score : "+con;
+			}
+			function check()
+			{
+				if( food_x == x && food_y == y )
+				{
+					var tail = document.createElement("div");
+					if(color_change)t_color = food.backgroundColor; else t_color = "green";
+					if(tail_index!=0){tails[tail_index-1].style.borderRadius = "0px 0px 0px 0px";}
+					else {snake.borderRadius = " 0px 20px 20px 0px"; }
+					tails.push(tail);  
+					tails[tail_index].style.width = "50px";
+					tails[tail_index].style.height = "50px";
+					tails[tail_index].style.position = "absolute";
+					tails[tail_index].style.backgroundColor = t_color;
+					tails[tail_index].style.left = x+"px";
+					tails[tail_index].style.top = y+"px";
+					tails[tail_index].innerHTML = '<div class="point"></div>';
+					tails[tail_index].style.borderRadius = "20px 0px 0px 20px";
+					
+					document.getElementById('cont').appendChild(tails[tail_index]);
+					generate_food()
+					tail_index++;
+				}
+			}
+			function tail_check()
+			{
+				for(var p = 0 ; p < tails.length ; p++ )
+				{
+					if(snake.left == tails[p].style.left && snake.top == tails[p].style.top)
+					return true;
+				}
+				
+			}
+			function start()
+			{
+				
+				//gameStarted = true;
+				document.getElementById("border").style.visibility = "visible";
+				document.getElementById("yes").style.visibility = "visible";
+				document.getElementById("no").style.visibility = "visible";
+				document.getElementById("start").style.visibility = "hidden";
+			}
+			function border(bl)
+			{
+				if(bl==0) borderless =false;
+				if(bl==1) borderless = true;
+				document.getElementById("border").style.visibility = "hidden";
+				document.getElementById("yes").style.visibility = "hidden";
+				document.getElementById("no").style.visibility = "hidden";
+				document.getElementById("color").style.visibility = "visible";
+				document.getElementById("yes_c").style.visibility = "visible";
+				document.getElementById("no_c").style.visibility = "visible";
+				
+				
+			}
+			function color(cl)
+			{
+				if(cl==0) color_change =false;
+				if(cl==1) color_change = true;
+				document.getElementById("color").style.visibility = "hidden";
+				document.getElementById("yes_c").style.visibility = "hidden";
+				document.getElementById("no_c").style.visibility = "hidden";
+				snake.visibility="visible";
+				food.visibility="visible";
+				gameStarted=true;
+				
+				
+			}
+			function over()
+			{
+				
+				snake_up = false;
+				snake_left = false;
+				snake_down = false;
+				snake_right = false;
+				change_state = false;
+				gameStarted = false;
+			
+			
+				document.getElementById("again").style.visibility = "visible";
+				document.getElementById("cont").style.opacity = "0.5";
+				
+				
+			}
+			function again()
+			{
+				con= -10;
+				generate_food();
+				for(var p = 0; p < tails.length ; p++)
+				tails[p].parentNode.removeChild(tails[p]);
+				tails = [];
+				tails_x = [];
+				tails_y = [];
+				rotations = [];
+				snake_up = false;
+				snake_left = false;
+				snake_down = false;
+				snake_right = true;
+				change_state = true;
+				snake.visibility = "hidden";
+				food.visibility = "hidden";
+				food.backgroundColor = "red";
+				t_color = "green";
+				snake.left = "0px";
+				snake.top = "0px";
+				snake.borderRadius = "20px 20px 20px 20px";
+				snake.visibility = "hidden";
+				food.visibility = "hidden";
+				document.getElementById("cont").style.opacity = "1";
+				deg = 0;
+				tail_index = 0;
+				x = 0;
+				y = 0;
+				dx = 50;
+				dy = 50;	
+				start();
+				document.getElementById("again").style.visibility = "hidden";
+				
+			}
+			
+		</script>
+	</body>
+</html>
