@@ -11,4 +11,4 @@ Technologies: HTML, CSS, JavaScript
 ![](images/Capture3.PNG)
 ### Random Color 1
 ![](images/Capture4.PNG)
-
+ 
